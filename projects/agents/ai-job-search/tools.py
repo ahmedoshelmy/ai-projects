@@ -8,7 +8,7 @@ class JobSearchInput(BaseModel):
     location: str = Field(default="", description="City or region to filter jobs by")
 
 
-_tavily = TavilySearch(max_results=5)
+_tavily = TavilySearch(max_results=10)
 
 
 @tool("search_jobs", args_schema=JobSearchInput)
