@@ -1,10 +1,7 @@
-from langchain.tools import tool
+from langchain_tavily import TavilySearch
 
-@tool
-def search_jobs(query: str) -> str:
-    """Search for jobs based on the query and return a list of relevant job postings."""
-    # Implement the logic to search for jobs using an API or web scraping
-    # For example, you could use the TAVILY API to search for jobs
-    # response = tavily_api.search_jobs(query)
-    # return response
-    pass
+search_jobs = TavilySearch(
+    max_results=5,
+    name="search_jobs",
+    description="Search for job postings on the web. Use this to find job listings based on title, location, or company.",
+)
