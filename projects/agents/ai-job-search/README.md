@@ -18,3 +18,6 @@ To create a tool we define it using @tool
 
 It's important to make a clear documentation for the comments 
 
+What Langchain does when u define a tool is that it defines a ToolMEssage and u can see when accessing the messages in the result 
+
+Behind the scenes, langraph will be executing the agent 
