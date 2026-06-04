@@ -21,3 +21,14 @@ It's important to make a clear documentation for the comments
 What Langchain does when u define a tool is that it defines a ToolMEssage and u can see when accessing the messages in the result 
 
 Behind the scenes, langraph will be executing the agent 
+
+Structured Output allows agents to return data in a specific, predictable format. 
+It has 2 strategies 
+1- Tool Strategy
+2- Provider Strategy 
+
+Langchain by default uses 2 
+
+Most models have the option to define the output whether pydantic or typedict 
+
+Tool calling we force the llm to always use the tool 
