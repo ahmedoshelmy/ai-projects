@@ -6,3 +6,4 @@ DataCamp/LLMs/LLama/llama3-8b-instruct-Q5_K_M.gguf
 Projects/Graph_RAG/data/*
 Projects/Graph_RAG/data/*/*
 **/__pycache__/**
+**docs/
