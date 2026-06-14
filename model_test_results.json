@@ -1,0 +1,392 @@
+[
+  {
+    "model": "minimax-m3:cloud",
+    "status": "success",
+    "response": "Hi there! 👋 Welcome! I'm here to help you with whatever you need. Whether it's answering questions, brainstorming ideas, writing, learning something new, or just having a conversation—I'm ready to assist.\n\nWhat can I do for you today?",
+    "input_tokens": 177,
+    "output_tokens": 84,
+    "total_tokens": 261,
+    "latency": 3.2359955310821533,
+    "error": null
+  },
+  {
+    "model": "nemotron-3-ultra:cloud",
+    "status": "success",
+    "response": "Hi there! How can I help you today?",
+    "input_tokens": 18,
+    "output_tokens": 29,
+    "total_tokens": 47,
+    "latency": 2.1470885276794434,
+    "error": null
+  },
+  {
+    "model": "gemma4:31b-cloud",
+    "status": "success",
+    "response": "Hello! How can I help you today?",
+    "input_tokens": 14,
+    "output_tokens": 10,
+    "total_tokens": 24,
+    "latency": 2.643920660018921,
+    "error": null
+  },
+  {
+    "model": "qwen3.5:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: b0b6687d-4df8-4da0-915c-31de66370d09) (status code: 403)"
+  },
+  {
+    "model": "qwen3.5:397b-cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: d96bcd47-c217-4973-9ebe-f44fee67cbb7) (status code: 403)"
+  },
+  {
+    "model": "glm-5.1:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: efa76612-5521-494b-ac0e-c087b4cfec4c) (status code: 403)"
+  },
+  {
+    "model": "minimax-m2.7:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 2002b649-34f0-4bef-bf36-0a595a0d0207) (status code: 403)"
+  },
+  {
+    "model": "nemotron-3-super:cloud",
+    "status": "success",
+    "response": "Hello! 👋 How can I assist you today? Whether you have a question, need help with something, or just want to chat—I'm here for you! What's on your mind?",
+    "input_tokens": 18,
+    "output_tokens": 237,
+    "total_tokens": 255,
+    "latency": 2.6554791927337646,
+    "error": null
+  },
+  {
+    "model": "glm-5:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 49dfed3b-c1a7-48ec-afe7-cfd0afbd3503) (status code: 403)"
+  },
+  {
+    "model": "kimi-k2.7-code:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 0c61b629-e204-4767-b16e-8af85d0659ac) (status code: 403)"
+  },
+  {
+    "model": "glm-4.7:cloud",
+    "status": "success",
+    "response": "Hi there! I'm the GLM language model trained by Z.ai. How can I assist you today? Whether you have questions, need information, or just want to chat, I'm happy to help. What would you like to discuss?",
+    "input_tokens": 6,
+    "output_tokens": 233,
+    "total_tokens": 239,
+    "latency": 8.165275573730469,
+    "error": null
+  },
+  {
+    "model": "gemini-3-flash-preview:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 192acae5-eb8f-40a9-862e-3cc0eeff08ac) (status code: 403)"
+  },
+  {
+    "model": "minimax-m2.1:cloud",
+    "status": "success",
+    "response": "Hi there! 👋\n\nI'm here to help you with coding tasks, technical questions, or anything else you need assistance with. What can I help you with today?",
+    "input_tokens": 39,
+    "output_tokens": 63,
+    "total_tokens": 102,
+    "latency": 1.444106101989746,
+    "error": null
+  },
+  {
+    "model": "kimi-k2.6:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 9faa354f-5610-4638-b10e-304a7f7dbdd4) (status code: 403)"
+  },
+  {
+    "model": "deepseek-v4-pro:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 7b0a59cb-57a8-4ef3-9313-eae12500240b) (status code: 403)"
+  },
+  {
+    "model": "deepseek-v4-flash:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: cae84850-6861-477e-a924-4e7f4fd8f601) (status code: 403)"
+  },
+  {
+    "model": "kimi-k2.5:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 9c3e7da3-cfd4-411d-b888-92eb3e662799) (status code: 403)"
+  },
+  {
+    "model": "gpt-oss:20b-cloud",
+    "status": "success",
+    "response": "",
+    "input_tokens": 68,
+    "output_tokens": 40,
+    "total_tokens": 108,
+    "latency": 1.2135143280029297,
+    "error": null
+  },
+  {
+    "model": "gpt-oss:120b-cloud",
+    "status": "success",
+    "response": "Hello! 👋 How can I assist you today?",
+    "input_tokens": 68,
+    "output_tokens": 43,
+    "total_tokens": 111,
+    "latency": 1.2810606956481934,
+    "error": null
+  },
+  {
+    "model": "qwen3-coder:480b-cloud",
+    "status": "success",
+    "response": "Hello! How can I help you today?",
+    "input_tokens": 9,
+    "output_tokens": 10,
+    "total_tokens": 19,
+    "latency": 1.5973973274230957,
+    "error": null
+  },
+  {
+    "model": "qwen3-vl:235b-cloud",
+    "status": "success",
+    "response": "Hello! How can I assist you today? 😊",
+    "input_tokens": 11,
+    "output_tokens": 173,
+    "total_tokens": 184,
+    "latency": 4.348352432250977,
+    "error": null
+  },
+  {
+    "model": "qwen3-vl:235b-instruct-cloud",
+    "status": "success",
+    "response": "Hello! 👋 How can I assist you today? Whether you have a question, need advice, or just want to chat—I'm here for you. 😊",
+    "input_tokens": 9,
+    "output_tokens": 34,
+    "total_tokens": 43,
+    "latency": 1.5077860355377197,
+    "error": null
+  },
+  {
+    "model": "deepseek-v3.2:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: b7464e7d-f5f0-4f76-91dd-e04a7b70c5af) (status code: 403)"
+  },
+  {
+    "model": "kimi-k2-thinking:cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: cc1b0ffe-d2e4-4d48-b828-fbc252397ca0) (status code: 403)"
+  },
+  {
+    "model": "minimax-m2:cloud",
+    "status": "success",
+    "response": "Hi there! How can I help you today? Whether you have questions about coding, need assistance with a project, or want to explore ideas, I'm here to help!",
+    "input_tokens": 40,
+    "output_tokens": 71,
+    "total_tokens": 111,
+    "latency": 2.2269287109375,
+    "error": null
+  },
+  {
+    "model": "glm-4.6:cloud",
+    "status": "success",
+    "response": "Hello! I'm the GLM language model trained by Zhipu AI. How can I assist you today? Whether you have questions, need information, or just want to chat, I'm here to help. What would you like to discuss?",
+    "input_tokens": 6,
+    "output_tokens": 249,
+    "total_tokens": 255,
+    "latency": 17.285139799118042,
+    "error": null
+  },
+  {
+    "model": "ministral-3:3b-cloud",
+    "status": "success",
+    "response": "Hi! 😊 How can I help you today? Whether you have questions, need advice, or just want to chat, I'm here for it! What’s on your mind?",
+    "input_tokens": 4,
+    "output_tokens": 39,
+    "total_tokens": 43,
+    "latency": 1.1512172222137451,
+    "error": null
+  },
+  {
+    "model": "ministral-3:8b-cloud",
+    "status": "success",
+    "response": "Hello! 😊 How can I assist you today? Whether you have a question, need help with something, or just want to chat, I'm here for you! What's on your mind?",
+    "input_tokens": 4,
+    "output_tokens": 42,
+    "total_tokens": 46,
+    "latency": 1.06345534324646,
+    "error": null
+  },
+  {
+    "model": "ministral-3:14b-cloud",
+    "status": "success",
+    "response": "Hello! 😊 How can I assist you today? Whether you have a question, need help with something, or just want to chat—I'm here for it! Let me know what's on your mind. 🚀\n\n(Or if you're testing me, I'm ready for that too! 😄)",
+    "input_tokens": 4,
+    "output_tokens": 67,
+    "total_tokens": 71,
+    "latency": 1.281285047531128,
+    "error": null
+  },
+  {
+    "model": "devstral-small-2:24b-cloud",
+    "status": "success",
+    "response": "Hello! How can I assist you today? 😊",
+    "input_tokens": 4,
+    "output_tokens": 13,
+    "total_tokens": 17,
+    "latency": 0.9510643482208252,
+    "error": null
+  },
+  {
+    "model": "nemotron-3-nano:30b-cloud",
+    "status": "success",
+    "response": "Hello! How can I assist you today?",
+    "input_tokens": 18,
+    "output_tokens": 42,
+    "total_tokens": 60,
+    "latency": 0.9319169521331787,
+    "error": null
+  },
+  {
+    "model": "qwen3-next:80b-cloud",
+    "status": "success",
+    "response": "Hello! 😊 How can I assist you today?",
+    "input_tokens": 11,
+    "output_tokens": 324,
+    "total_tokens": 335,
+    "latency": 3.0490493774414062,
+    "error": null
+  },
+  {
+    "model": "rnj-1:8b-cloud",
+    "status": "success",
+    "response": "Hello! How can I assist you today?",
+    "input_tokens": 37,
+    "output_tokens": 10,
+    "total_tokens": 47,
+    "latency": 0.6492326259613037,
+    "error": null
+  },
+  {
+    "model": "deepseek-v3.1:671b-cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: b2e95caf-8301-45b3-b2c0-054b64c6d1a9) (status code: 403)"
+  },
+  {
+    "model": "devstral-2:123b-cloud",
+    "status": "success",
+    "response": "Hello! How can I assist you today? 😊",
+    "input_tokens": 4,
+    "output_tokens": 13,
+    "total_tokens": 17,
+    "latency": 2.7267892360687256,
+    "error": null
+  },
+  {
+    "model": "mistral-large-3:675b-cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: 71de8039-c860-49e7-bb61-2b593be86bfe) (status code: 403)"
+  },
+  {
+    "model": "kimi-k2:1t-cloud",
+    "status": "failed",
+    "response": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "latency": 0,
+    "error": "this model requires a subscription, upgrade for access: https://ollama.com/upgrade (ref: a2a8df13-dc8e-48df-a973-e4fb3c381f9c) (status code: 403)"
+  },
+  {
+    "model": "qwen3-coder-next:cloud",
+    "status": "success",
+    "response": "Hello! 👋 How can I help you today?",
+    "input_tokens": 9,
+    "output_tokens": 12,
+    "total_tokens": 21,
+    "latency": 0.8366162776947021,
+    "error": null
+  },
+  {
+    "model": "minimax-m2.5:cloud",
+    "status": "success",
+    "response": "Hi there! 👋 How can I help you today?",
+    "input_tokens": 39,
+    "output_tokens": 47,
+    "total_tokens": 86,
+    "latency": 1.1493265628814697,
+    "error": null
+  }
+]
