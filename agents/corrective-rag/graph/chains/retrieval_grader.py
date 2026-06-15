@@ -12,11 +12,11 @@ class GradeDocuments(BaseModel):
     )
 
 
-structured_llm_grader = llm.with_structured_output(GradeDocuments)
+structured_llm_grader = llm.with_structured_output(GradeDocuments, method="json_mode")
 
 system = """You are a grader assessing relevance of a retrieved document to a user question. \n 
     If the document contains keyword(s) or semantic meaning related to the question, grade it as relevant. \n
-    Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question."""
+    Return a JSON object with a key 'binary_score' and value 'yes' or 'no' indicating whether the document is relevant to the question."""
 grade_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system),
