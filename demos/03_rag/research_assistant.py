@@ -3,7 +3,11 @@ Section 2 Project: AI Research Assistant
 Complete RAG system with conversation memory
 """
 
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm, get_embeddings
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
@@ -26,7 +30,7 @@ from dotenv import load_dotenv
 import json
 
 
-load_dotenv()
+load_env_from_project()
 
 
 # ============================================================
@@ -63,7 +67,7 @@ class AIResearchAssistant:
         # 1. Embeddings - turns text into vectors
         self.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
 
         # 2. Splitter - breaks big docs into chunks
         self.splitter = RecursiveCharacterTextSplitter(

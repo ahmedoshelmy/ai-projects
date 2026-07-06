@@ -2,6 +2,10 @@
 Prompt Templates and Messages in LangChain V.1
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langchain_core.prompts import (
     ChatPromptTemplate,
     FewShotChatMessagePromptTemplate,
@@ -12,10 +16,10 @@ from langchain_core.messages import (
     HumanMessage,
     AIMessage,
 )
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm, safe_print
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 def demo_basic_templates():
@@ -45,7 +49,7 @@ def demo_basic_templates():
 def demo_message_types():
     """Working with different message types."""
 
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model = get_llm("ollama")
 
     # Build conversation manually
     messages = [
@@ -83,7 +87,7 @@ def demo_messages_placeholder():
         print(f"  {type(msg).__name__}: {msg.content[:50]}...")
 
     # Execute
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model = get_llm("ollama")
     
     chain = prompt | model
     response = chain.invoke({"history": history, "question": "What's my name?"})
@@ -124,7 +128,7 @@ def demo_few_shot():
     )
 
     # Test
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model = get_llm("ollama")
     chain = final_prompt | model
 
     response = chain.invoke({"word": "bright"})
@@ -146,7 +150,7 @@ def demo_prompt_composition():
     full_prompt = persona + task
 
     # Test different combinations
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    model = get_llm("ollama")
     chain = full_prompt | model
 
     # As a pirate
@@ -157,7 +161,7 @@ def demo_prompt_composition():
             "task": "Tell me about your ship",
         }
     )
-    print(f"Pirate: {response.content[:100]}...")
+    safe_print(f"Pirate: {response.content[:100]}...")
 
     # As a scientist
     response = chain.invoke(

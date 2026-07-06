@@ -1,4 +1,3 @@
-from langchain.chat_models import init_chat_model
 from langgraph.graph import StateGraph, START, END
 from typing_extensions import TypedDict, Annotated
 from typing import Literal
@@ -8,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = init_chat_model("gpt-4o-mini", temperature=0.0)
+llm = get_llm("ollama")
 
 
 class RouterState(TypedDict):

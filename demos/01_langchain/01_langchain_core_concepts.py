@@ -8,7 +8,6 @@ from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.chat_models import init_chat_model
 import os
 
 load_dotenv()

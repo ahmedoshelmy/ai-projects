@@ -3,17 +3,21 @@ Human-in-the-Loop Patterns in LangGraph
 Interrupt, review, modify, and resume
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 from typing_extensions import TypedDict
 from typing import Literal
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from dotenv import load_dotenv
 import time
 
-load_dotenv()
+load_env_from_project()
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = get_llm("ollama")
 
 
 # ─── Helper for visual separation ───

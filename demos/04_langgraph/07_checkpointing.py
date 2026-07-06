@@ -3,11 +3,15 @@ Checkpointing and Persistence in LangGraph
 Save and resume agent state
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.sqlite import SqliteSaver
 from typing_extensions import TypedDict, Annotated
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 import operator
 import tempfile
@@ -15,7 +19,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+llm = get_llm("ollama")
 
 
 class ChatState(TypedDict):

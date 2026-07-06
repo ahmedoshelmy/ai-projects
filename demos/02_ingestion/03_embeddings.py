@@ -1,20 +1,14 @@
-# Model	              Dimensions	Cost per 1M tokens	Best For
-# text-embedding-3-small	1536	    $0.02	            General use
-# text-embedding-3-large	3072	    $0.13	                High accuracy
-# text-embedding-ada-002	1536	    $0.10	                Legacy
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from langchain_openai.embeddings import OpenAIEmbeddings
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from shared_utils import load_env_from_project, get_embeddings
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2") # 384 dimensions
-
-
-# Ollama 
-from langchain_ollama import OllamaEmbeddings
-embeddings = OllamaEmbeddings(model="llama2-7b-embedding-q4_0")
+# Using HuggingFace API embeddings
+embeddings = get_embeddings("BAAI/bge-small-en-v1.5")
 
 
 

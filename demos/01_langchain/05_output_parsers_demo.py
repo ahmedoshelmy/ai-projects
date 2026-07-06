@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langchain_core.prompts import (
     ChatPromptTemplate,
     FewShotChatMessagePromptTemplate,
@@ -8,18 +12,17 @@ from langchain_core.messages import (
     HumanMessage,
     AIMessage,
 )
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
-from langchain.chat_models import init_chat_model
 
-load_dotenv()
+load_env_from_project()
 
 parser = StrOutputParser()
 
 prompt = ChatPromptTemplate.from_template("wire a short poem about {topic}")
 
-llm = init_chat_model(model="gpt-4o-mini", temperature=0)
+llm = get_llm("ollama")
 
 chain = prompt | llm | parser
 
@@ -73,5 +76,9 @@ class MovieReview(BaseModel):
 # Bind the schema to the model
 structured_model = llm.with_structured_output(MovieReview)
 
-result = structured_model.invoke("Review: Inception is a mind-bending thriller. 9/10")
-print(result)  # MovieReview(title='Inception', review='A mind-bending thriller.', rating=9)
+try:
+    result = structured_model.invoke("Review: Inception is a mind-bending thriller. 9/10")
+    print(result)  # MovieReview(title='Inception', review='A mind-bending thriller.', rating=9)
+except Exception as e:
+    print(f"⚠ Structured output demo skipped: {type(e).__name__}")
+    print(f"  Note: Some models don't support structured output constraints")

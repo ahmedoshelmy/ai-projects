@@ -1,12 +1,14 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from dotenv import load_dotenv
-import os
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage, SystemMessage
 
-load_dotenv()
+load_env_from_project()
 
 # # chatprompttemplate
 # prompt = ChatPromptTemplate.from_template("Tell me a {adjective} joke about {topic}.")
@@ -34,7 +36,7 @@ messages = prompt.format_messages(
 
 # print(messages)
 
-# model = init_chat_model(model="gpt-4o-mini", temperature=0)
+# model = get_llm("ollama")
 # response = model.invoke(messages)
 # print(response.content)
 
@@ -86,7 +88,7 @@ final_prompt = ChatPromptTemplate.from_messages(
 )
 
 
-model = init_chat_model(model="gpt-4o-mini", temperature=0)
+model = get_llm("ollama")
 response = model.invoke(final_prompt.format_messages(input="happy"))
 
 print(response.content)

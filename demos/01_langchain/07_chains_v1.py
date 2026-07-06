@@ -3,10 +3,12 @@ Understanding Chains in LangChain V.1
 LCEL patterns, composition, and debugging
 """
 
-from unittest import result
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from langchain.chat_models import init_chat_model
+from shared_utils import load_env_from_project, get_llm, safe_print
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import (
@@ -16,9 +18,9 @@ from langchain_core.runnables import (
     RunnableBranch,
 )
 
-load_dotenv()
+load_env_from_project()
 
-model = init_chat_model(model="gpt-4o-mini", temperature=0)
+model = get_llm("ollama")
 
 
 def demo_basic_chain():
@@ -154,12 +156,12 @@ def demo_debbuging():
         run_name="greeting_chain",
         # tags="demo,debugging",
     ).invoke({"name": "Alice"})
-    print(f"Greeting: {result}")
+    safe_print(f"Greeting: {result}")
 
     # Method 3: Inspect intermediate steps
     # Using RunnableLambda for logging
     def log_step(x, step_name=""):
-        print(f"[{step_name}] {type(x).__name__}: {str(x)[:100]}")
+        safe_print(f"[{step_name}] {type(x).__name__}: {str(x)[:100]}")
         return x
 
     debug_chain = (
@@ -170,9 +172,12 @@ def demo_debbuging():
         | StrOutputParser()
     )
 
-    print("\nDebug chain execution:")
-    result = debug_chain.invoke({"name": "Debug"})
-    print(f"Greeting: {result}")
+    safe_print("\nDebug chain execution:")
+    try:
+        result = debug_chain.invoke({"name": "Debug"})
+        safe_print(f"Greeting: {result}")
+    except Exception as e:
+        safe_print(f"⚠ Debug chain error: {type(e).__name__}")
 
 
 if __name__ == "__main__":

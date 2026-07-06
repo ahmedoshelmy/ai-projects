@@ -104,4 +104,9 @@ if __name__ == "__main__":
     # web_loader()
     # lazy_loader()
     # doc_structure()
-    pdf_loader("./docs/langchain_demo.pdf")
+    try:
+        pdf_loader("./docs/langchain_demo.pdf")
+    except FileNotFoundError:
+        print("⚠ PDF file not found at ./docs/langchain_demo.pdf - skipping PDF loader demo")
+    except Exception as e:
+        print(f"⚠ PDF loader error: {type(e).__name__}")

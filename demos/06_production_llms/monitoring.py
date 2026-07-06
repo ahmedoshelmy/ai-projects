@@ -9,13 +9,17 @@ import time
 from datetime import datetime, timezone
 from functools import wraps
 from typing import Any, Callable
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.messages import HumanMessage
 from langsmith import traceable
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 # === Structured Logging ===
@@ -128,7 +132,7 @@ class InstrumentedLLM:
     """LLM with full instrumentation."""
 
     def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("groq", model="gpt-4o-mini", temperature=0)
         self.metrics = MetricsCollector()
         self.logger = setup_logging()
 

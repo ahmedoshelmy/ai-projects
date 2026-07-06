@@ -7,13 +7,17 @@ import pytest
 from unittest.mock import Mock, patch
 from typing import Callable
 from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import AIMessage
 from langsmith import traceable, Client
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 # === Unit Testing with Mocks ===
@@ -21,7 +25,7 @@ class QAChain:
     """Simple Q&A chain for testing."""
 
     def __init__(self, llm=None):
-        self.llm = llm or ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = llm or get_llm("groq", model="gpt-4o-mini", temperature=0)
         self.prompt = ChatPromptTemplate.from_template(
             "Answer this question: {question}"
         )
@@ -64,7 +68,7 @@ class IntegrationTestSuite:
     """Integration tests with real LLM calls."""
 
     def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
 
     @traceable(name="integration_test")
     def test_basic_qa(self) -> dict:
@@ -127,7 +131,7 @@ class LLMEvaluator:
     """Use LLM to evaluate LLM outputs."""
 
     def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
 
     @traceable(name="evaluate_response")
     def evaluate(self, question: str, response: str, reference: str = None) -> dict:
@@ -248,7 +252,7 @@ def demo_regression_testing():
     """Demonstrate regression testing."""
 
     # Simple chain to test
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     def qa_chain(question: str) -> str:
         return llm.invoke(question).content
@@ -293,7 +297,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = Client()
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = get_llm("ollama")
 
 
 # ============================================================
@@ -373,7 +377,7 @@ def qa_target(inputs: dict) -> dict:
 # ============================================================
 
 # Evaluator: checks correctness against reference using LLM-as-judge
-eval_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+eval_llm = get_llm("ollama")
 
 
 def correctness(run, example) -> dict:

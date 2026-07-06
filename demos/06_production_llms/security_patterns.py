@@ -6,13 +6,17 @@ Protecting LLM applications in production
 import re
 from typing import Optional
 from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langsmith import traceable
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 # === Input Sanitization ===
@@ -139,7 +143,7 @@ class SecurityGuard:
     """Use LLM to detect malicious intent."""
 
     def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("groq", model="gpt-4o-mini", temperature=0)
 
         self.prompt = ChatPromptTemplate.from_messages(
             [
@@ -267,7 +271,7 @@ class SecurePipeline:
         self.pii_detector = PIIDetector()
         self.guard = SecurityGuard()
         self.validator = OutputValidator()
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
 
     @traceable(name="secure_process")
     def process(self, user_input: str) -> dict:

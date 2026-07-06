@@ -7,12 +7,16 @@ import hashlib
 import json
 from typing import Optional, Callable
 from functools import lru_cache
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 # === Model Routing ===
 
@@ -21,9 +25,9 @@ class ModelRouter:
     """Route queries to appropriate model based on complexity."""
 
     def __init__(self):
-        self.cheap_model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-        self.expensive_model = ChatOpenAI(model="gpt-4o", temperature=0)
-        self.classifier = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.cheap_model = get_llm("groq", model="gpt-4o-mini", temperature=0)
+        self.expensive_model = get_llm("ollama")
+        self.classifier = get_llm("ollama")
 
     def classify_complexity(self, query: str) -> str:
         """Classify query complexity."""
@@ -104,7 +108,7 @@ class SemanticCache:
     def __init__(self, similarity_threshold: float = 0.9):
         self.cache = {}
         self.threshold = similarity_threshold
-        self.embedder = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.embedder = get_llm("ollama")
 
     def _hash_query(self, query: str) -> str:
         """Create hash of normalized query."""
@@ -137,7 +141,7 @@ class CachedLLM:
     """LLM wrapper with caching."""
 
     def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
         self.cache = SemanticCache()
         self.cache_hits = 0
         self.cache_misses = 0
@@ -237,7 +241,7 @@ class BudgetedLLM:
     """LLM with token budgeting."""
 
     def __init__(self, max_tokens: int = 4000):
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.llm = get_llm("ollama")
         self.budget = TokenBudget(max_tokens_per_request=max_tokens)
 
     @traceable(name="budgeted_invoke")

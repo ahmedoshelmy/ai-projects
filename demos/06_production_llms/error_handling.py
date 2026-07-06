@@ -9,14 +9,18 @@ from typing import Literal, Optional, Callable
 from functools import wraps
 from langchain_anthropic import ChatAnthropic
 from langgraph.graph import StateGraph, START, END
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.messages import HumanMessage, AIMessage
 from typing_extensions import TypedDict, Annotated
 import operator
 from langsmith import traceable
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 # === Retry Decorator ===
@@ -155,8 +159,8 @@ class FallbackChain:
 
     def __init__(self):
         self.models = [
-            ("gpt-4o-mini", ChatOpenAI(model="gpt-4o-mini", temperature=0, timeout=10)),
-            ("gpt-4o", ChatOpenAI(model="gpt-4o", temperature=0, timeout=10)),
+            ("gpt-4o-mini", get_llm("groq", model="gpt-4o-mini", temperature=0, timeout=10)),
+            ("gpt-4o", get_llm("ollama")),
             (
                 "claude-sonnet",
                 ChatAnthropic(
@@ -235,7 +239,7 @@ class RobustState(TypedDict):
 def create_robust_agent():
     """Create agent with built-in error handling."""
 
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     def process_with_retry(state: RobustState) -> dict:
         """Process with retry logic built-in."""

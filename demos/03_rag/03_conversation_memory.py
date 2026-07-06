@@ -3,8 +3,11 @@ Conversation Memory in LangChain
 Modern approaches to maintaining conversation context
 """
 
-from langchain_openai import ChatOpenAI
-from langchain.chat_models import init_chat_model
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import (
     HumanMessage,
@@ -21,10 +24,14 @@ from langchain_core.output_parsers import StrOutputParser
 from typing import Dict
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
-llm = init_chat_model("gpt-4o-mini")
+try:
+    llm = get_llm("groq")
+except Exception as e:
+    print(f"⚠ Groq unavailable: {type(e).__name__}, using Ollama")
+    llm = get_llm("ollama")
 
 
 def demo_basic_memory():
@@ -35,7 +42,7 @@ def demo_basic_memory():
     print("Using RunnableWithMessageHistory (modern approach)")
     print("=" * 60)
 
-    # llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    # llm = get_llm("ollama")
 
     # Prompt with history placeholder
     prompt = ChatPromptTemplate.from_messages(
@@ -286,8 +293,8 @@ def demo_summary_memory():
     print("=" * 60)
 
     # --- Setup ---
-    summary_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-    chat_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    summary_llm = get_llm("ollama")
+    chat_llm = get_llm("ollama")
 
     # The conversation prompt: summary of old context + recent messages
     chat_prompt = ChatPromptTemplate.from_messages(
@@ -487,7 +494,7 @@ def exercise_persistent_memory_proof():
 
     # --- Helper: build a fresh chain (simulates a new program run) ---
     def build_chain():
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+        llm = get_llm("ollama")
 
         def get_session_history(sid: str) -> BaseChatMessageHistory:
             return SQLChatMessageHistory(

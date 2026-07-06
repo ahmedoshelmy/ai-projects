@@ -3,13 +3,14 @@ Building RAG Pipelines
 Complete retrieval-augmented generation implementation
 """
 
-from langchain_openai.embeddings import OpenAIEmbeddings
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm, get_embeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.chat_models import init_chat_model
-
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -18,8 +19,8 @@ from typing import List
 from dotenv import load_dotenv
 import tempfile
 
-load_dotenv()
-embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small")
+load_env_from_project()
+embeddings_model = get_embeddings("BAAI/bge-small-en-v1.5")
 
 # Sample knowledge base
 KNOWLEDGE_BASE = """# LangChain Framework
@@ -55,7 +56,7 @@ LangChain itself is open source and free. LangSmith (the observability platform)
 Install with: pip install langchain langchain-openai
 Create your first chain in under 10 lines of code.
 """
-llm = init_chat_model(model="gpt-4o-mini", temperature=0.2)
+llm = get_llm("ollama")
 
 
 def create_kb():
@@ -283,7 +284,7 @@ def exercise_document_qa():
             self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 3})
 
             # Create chain
-            self.llm = init_chat_model(model="gpt-4o-mini", temperature=0.2)
+            self.llm = get_llm("ollama")
 
             self.prompt = ChatPromptTemplate.from_template(
                 """

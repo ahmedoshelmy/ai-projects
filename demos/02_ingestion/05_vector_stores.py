@@ -1,4 +1,8 @@
-from langchain_openai.embeddings import OpenAIEmbeddings
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_embeddings
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -6,9 +10,9 @@ import tempfile
 import shutil
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
-embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small")
+embeddings_model = get_embeddings("BAAI/bge-small-en-v1.5")
 
 # Sample documents
 SAMPLE_DOCS = [

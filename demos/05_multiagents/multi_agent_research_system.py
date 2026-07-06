@@ -12,7 +12,11 @@ Patterns used:
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langgraph.types import Send
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
 from typing_extensions import TypedDict, Annotated
 from typing import Literal
@@ -21,10 +25,10 @@ import operator
 import json
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-creative_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+llm = get_llm("groq", model="gpt-4o-mini", temperature=0)
+creative_llm = get_llm("ollama")
 
 
 # ============================================================

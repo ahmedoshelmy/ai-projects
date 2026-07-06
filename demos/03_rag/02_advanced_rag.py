@@ -3,6 +3,10 @@ Advanced RAG Patterns
 Multi-query, self-query, compression, hybrid search
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langchain_classic.retrievers.multi_query import MultiQueryRetriever
 from langchain_classic.retrievers import ContextualCompressionRetriever
 from langchain_classic.retrievers.document_compressors import LLMChainExtractor
@@ -11,7 +15,7 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_classic.retrievers import ParentDocumentRetriever
 from langchain_classic.storage import InMemoryStore
 from langchain_chroma import Chroma
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from shared_utils import load_env_from_project, get_llm, get_embeddings
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
@@ -20,7 +24,7 @@ from langchain_core.runnables import RunnablePassthrough
 from dotenv import load_dotenv
 import logging
 
-load_dotenv()
+load_env_from_project()
 
 # Enable logging to see multi-query generation
 logging.basicConfig(level=logging.INFO, format="%(name)s - %(message)s")
@@ -186,7 +190,7 @@ def demo_multi_query_retriever():
     print("=" * 60)
 
     vectorstore = create_base_vectorstore()
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
+    llm = get_llm("ollama")
 
     # Create multi-query retriever
     retriever = MultiQueryRetriever.from_llm(
@@ -218,7 +222,7 @@ def demo_contextual_compression():
     print("=" * 60)
 
     vectorstore = create_base_vectorstore()
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     # Create compressor
     compressor = LLMChainExtractor.from_llm(llm)
@@ -392,7 +396,7 @@ def demo_advanced_rag_chain():
     print("=" * 60)
 
     vectorstore = create_base_vectorstore()
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     # Multi-query for better recall
     multi_retriever = MultiQueryRetriever.from_llm(

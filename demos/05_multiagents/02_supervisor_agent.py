@@ -4,7 +4,11 @@ One agent coordinates multiple specialist agents
 """
 
 from langgraph.graph import StateGraph, START, END
-from langchain_openai import ChatOpenAI
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
 from langchain_core.prompts import ChatPromptTemplate
 from typing_extensions import TypedDict, Annotated
@@ -14,7 +18,7 @@ from pydantic import BaseModel, Field
 import operator
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 class SupervisorState(TypedDict):
@@ -24,7 +28,7 @@ class SupervisorState(TypedDict):
     final_response: str
 
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = get_llm("groq", model="gpt-4o-mini", temperature=0)
 
 
 def create_supervisor_system():

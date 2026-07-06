@@ -3,8 +3,12 @@ Agent Handoffs in LangGraph
 Passing control and context between agents
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langgraph.graph import StateGraph, START, END
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, BaseMessage
 from typing_extensions import TypedDict, Annotated
 from langgraph.graph.message import add_messages
@@ -13,9 +17,13 @@ from pydantic import BaseModel, Field
 import operator
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+try:
+    llm = get_llm("groq")
+except Exception as e:
+    print(f"⚠ Groq unavailable: {type(e).__name__}, using Ollama")
+    llm = get_llm("ollama")
 
 
 class HandoffState(TypedDict):

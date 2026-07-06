@@ -1,12 +1,15 @@
-from langchain.chat_models import init_chat_model
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langgraph.graph import StateGraph, START, END
 from typing_extensions import TypedDict, Annotated
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, SystemMessage
 import operator
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 class ConversationState(TypedDict):
@@ -16,7 +19,7 @@ class ConversationState(TypedDict):
 
 
 def create_conversation_graph():
-    llm = init_chat_model("gpt-4o-mini", temperature=0.7)
+    llm = get_llm("ollama")
 
     # Define node function
     def analyze_sentiment(state: ConversationState) -> dict:

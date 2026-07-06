@@ -2,20 +2,28 @@
 Output Parsers and Structured Output in LangChain V.1
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langchain_core.output_parsers import (
     StrOutputParser,
     JsonOutputParser,
     PydanticOutputParser,
 )
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+try:
+    model = get_llm("groq")
+except Exception as e:
+    print(f"⚠ Groq unavailable: {type(e).__name__}, using Ollama")
+    model = get_llm("ollama")
 
 
 def demo_str_parser():
@@ -104,13 +112,17 @@ def demo_structured_output():
     ]
 
     print("Task Extractions:")
-    for text in texts:
-        result = chain.invoke({"text": text})
-        print(f"\nInput: {text}")
-        print(f"  Task: {result.task}")
-        print(f"  Priority: {result.priority}")
-        print(f"  Deadline: {result.deadline}")
-        print(f"  Assignee: {result.assignee}")
+    try:
+        for text in texts:
+            result = chain.invoke({"text": text})
+            print(f"\nInput: {text}")
+            print(f"  Task: {result.task}")
+            print(f"  Priority: {result.priority}")
+            print(f"  Deadline: {result.deadline}")
+            print(f"  Assignee: {result.assignee}")
+    except Exception as e:
+        print(f"⚠ Structured output demo skipped: {type(e).__name__}")
+        print(f"  Note: Some models don't support structured output constraints")
 
 
 def demo_complex_schema():
@@ -136,18 +148,21 @@ def demo_complex_schema():
 
     chain = prompt | structured_model
 
-    result = chain.invoke(
-        {
-            "text": "Apple Inc. is a tech company with 160,000 employees based in "
-            "Cupertino, California, USA. They make iPhones, MacBooks, and iPads."
-        }
-    )
+    try:
+        result = chain.invoke(
+            {
+                "text": "Apple Inc. is a tech company with 160,000 employees based in "
+                "Cupertino, California, USA. They make iPhones, MacBooks, and iPads."
+            }
+        )
 
-    print(f"Company: {result.name}")
-    print(f"Industry: {result.industry}")
-    print(f"Employees: {result.employee_count}")
-    print(f"HQ: {result.headquarters.city}, {result.headquarters.country}")
-    print(f"Products: {result.products}")
+        print(f"Company: {result.name}")
+        print(f"Industry: {result.industry}")
+        print(f"Employees: {result.employee_count}")
+        print(f"HQ: {result.headquarters.city}, {result.headquarters.country}")
+        print(f"Products: {result.products}")
+    except Exception as e:
+        print(f"⚠ Complex schema demo skipped: {type(e).__name__}")
 
 
 # Exercise: Extract structured data from text
@@ -180,20 +195,23 @@ def exercise_structured_extraction():
 
     chain = prompt | structured_model
 
-    result = chain.invoke(
-        {
-            "review": "The Dark Knight (2008) directed by Christopher Nolan is an "
-            "absolute masterpiece. Christian Bale and Heath Ledger deliver "
-            "incredible performances in this action thriller. 10/10!"
-        }
-    )
+    try:
+        result = chain.invoke(
+            {
+                "review": "The Dark Knight (2008) directed by Christopher Nolan is an "
+                "absolute masterpiece. Christian Bale and Heath Ledger deliver "
+                "incredible performances in this action thriller. 10/10!"
+            }
+        )
 
-    print(f"Title: {result.title}")
-    print(f"Year: {result.year}")
-    print(f"Director: {result.director}")
-    print(f"Actors: {result.actors}")
-    print(f"Genre: {result.genre}")
-    print(f"Rating: {result.rating}/10")
+        print(f"Title: {result.title}")
+        print(f"Year: {result.year}")
+        print(f"Director: {result.director}")
+        print(f"Actors: {result.actors}")
+        print(f"Genre: {result.genre}")
+        print(f"Rating: {result.rating}/10")
+    except Exception as e:
+        print(f"⚠ Movie extraction demo skipped: {type(e).__name__}")
 
 
 if __name__ == "__main__":

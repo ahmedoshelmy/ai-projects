@@ -3,129 +3,88 @@ Working with LLMs in LangChain V.1
 Multiple providers, configuration, streaming, and cost optimization
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from dotenv import load_dotenv
 import os
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage, SystemMessage
 
-load_dotenv()
+load_env_from_project()
 
 
-def demo_init_chat_model():
-    chat_model = init_chat_model(
-        model="gpt-4o-mini",
-        # model_provider="openai",
-        temperature=0.7,
-        streaming=True,
-        max_retries=3,
-    )
+def demo_groq_llm():
+    """Demo using Groq LLM"""
+    try:
+        model = get_llm("groq")
+        response = model.invoke("What is the capital of France? Answer in one word.")
+        print(f"Response from Groq: {response.content}")
+    except Exception as e:
+        print(f"⚠ Groq demo skipped: {type(e).__name__}")
+        print(f"  Note: Check available models at https://console.groq.com/docs/models")
 
-    response = chat_model.invoke("What is the capital of France? Answer in one word.")
-    print(f"Response: {response.content}")
 
-    # easy to switch model providers
-    if os.getenv("ANTHROPIC_API_KEY"):
-        claude = init_chat_model(
-            model="claude-sonnet-4-5-20250929",
-            model_provider="anthropic",
-            temperature=0.7,
-            streaming=True,
-            max_retries=3,
-        )
-
-        response = claude.invoke("What is the capital of France? Answer in one word.")
-        print(f"Response from Anthropic: {response.content}")
+def demo_ollama_llm():
+    """Demo using Ollama cloud LLM"""
+    try:
+        model = get_llm("ollama")
+        response = model.invoke("What is the capital of France? Answer in one word.")
+        print(f"Response from Ollama Cloud: {response.content}")
+    except Exception as e:
+        print(f"⚠ Ollama demo skipped: {type(e).__name__}")
 
 
 def demo_model_comparison():
+    """Compare Groq and Ollama models"""
     prompt = "Explain recursion in one sentence."
-
+    
     models = {
-        "gpt-4o-mini": init_chat_model(
-            model="gpt-4o-mini",
-            temperature=0.7,
-            streaming=False,
-        ),
-        "gpt-4o": init_chat_model(
-            model="gpt-4o",
-            temperature=0.7,
-            streaming=False,
-        ),
+        "groq": ("Groq", get_llm("groq")),
+        "ollama": ("Ollama", get_llm("ollama")),
     }
 
-    # add anthropic model if available
-    if os.getenv("ANTHROPIC_API_KEY"):
-        models["claude-sonnet-4-5-20250929"] = init_chat_model(
-            model="claude-sonnet-4-5-20250929",
-            model_provider="anthropic",
-            temperature=0.7,
-            streaming=False,
-        )
-
     print(f"Prompt: {prompt}\n")
-
-    for model_name, model in models.items():
-        response = model.invoke(prompt)
-        print(f"Response from {model_name}: {response.content}\n")
+    for model_key, (model_name, model) in models.items():
+        try:
+            response = model.invoke(prompt)
+            print(f"Response from {model_name}: {response.content}\n")
+        except Exception as e:
+            print(f"⚠ {model_name} skipped: {type(e).__name__}\n")
 
 
 def demo_message():
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    """Demo using message objects"""
+    try:
+        model = get_llm("groq")
+        
+        # using message objects (more control over roles)
+        messages = [
+            SystemMessage(content="You are a pirate. Always answer like a pirate."),
+            HumanMessage(content="What's the weather like today?"),
+        ]
 
-    # using message objects (more control over roles)
-    messages = [
-        SystemMessage(content="You are a pirate. Always answer like a pirate."),
-        HumanMessage(content="What's the weather like today?"),
-    ]
-    # print("Using message objects:")
-    # print(f"Messages: {messages[0]} | {messages[1]}")
+        response = model.invoke(messages)
+        print(f"Response from the Pirate: {response.content}")
 
-    response = model.invoke(messages)
-    print(f"Response from the Pirate: {response.content}")
+        # Multi-turn conversation using message objects
+        messages.append(response)  # add model's response to the conversation
+        messages.append(HumanMessage(content="What about tomorrow?"))
 
-    # Multi-turn conversation using message objects
-    messages.append(response)  # add model's response to the conversation
-    messages.append(HumanMessage(content="What about tomorrow?"))
-
-    print("\nMulti-turn conversation:")
-    response = model.invoke(messages)
-    print(f"Follow-up response from the Pirate: {response.content}")
-
-
-# Exercise: Multi-model setup
-def exercise_multi_model():
-    """
-    EXERCISE: Create a function that:
-    1. Takes a question and a list of model names
-    2. Gets responses from all models
-    3. Returns a dict of {model_name: response}
-
-    Test with: question="What is AI?", models=["gpt-4o-mini", "gpt-4o"]
-    """
-
-    def get_responses(question: str, model_names: list[str]) -> dict[str, str]:
-        responses = {}
-        for model_name in model_names:
-            model = init_chat_model(
-                model=model_name,
-                temperature=0.7,
-                streaming=False,
-            )
-            response = model.invoke(question)
-            responses[model_name] = response.content
-        return responses
-
-    # Test the function
-    results = get_responses("What is AI?", ["gpt-4o-mini", "gpt-4o"])
-    for model, answer in results.items():
-        print(f"Response from {model}: {answer}\n")
+        print("\nMulti-turn conversation:")
+        response = model.invoke(messages)
+        print(f"Follow-up response from the Pirate: {response.content}")
+    except Exception as e:
+        print(f"⚠ Message demo skipped: {type(e).__name__}")
 
 
 if __name__ == "__main__":
-    # demo_init_chat_model()
-    # demo_model_comparison()
-    # demo_message()
-    exercise_multi_model()
+    print("=== Groq LLM Demo ===")
+    demo_groq_llm()
+    print("\n=== Model Comparison ===")
+    demo_model_comparison()
+    print("\n=== Message Objects Demo ===")
+    demo_message()

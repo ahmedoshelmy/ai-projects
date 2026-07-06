@@ -3,21 +3,25 @@ Section 1 Project: Smart Q&A Bot
 A production-ready question-answering bot with structured output
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from shared_utils import load_env_from_project, get_llm, safe_print
 from pydantic import BaseModel, Field
 from typing import List
 from dotenv import load_dotenv
 from langsmith import traceable, Client
 import os
 
-load_dotenv()
+load_env_from_project()
 
 # -- LangSmith Configuration --
 if os.getenv("LANGSMITH_API_KEY"):
     os.environ["LANGSMITH_TRACING"] = "true"
     os.environ.setdefault("LANGSMITH_PROJECT", "Smart Q&A Bot Project")
-    print(f"LangSmith is configured. - Project: {os.getenv('LANGSMITH_PROJECT')}")
+    safe_print(f"LangSmith is configured. - Project: {os.getenv('LANGSMITH_PROJECT')}")
 
 
 # Schema Definition
@@ -43,10 +47,7 @@ class SmartQABot:
         model_name: str = "gpt-4o-mini",
         temperature: float = 0.3,
     ):
-        self.model = ChatOpenAI(
-            model=model_name,
-            temperature=temperature,
-        ).with_structured_output(QAResponse)
+        self.model = get_llm("ollama").with_structured_output(QAResponse)
         self.prompt = ChatPromptTemplate.from_messages(
             [
                 (
@@ -85,8 +86,20 @@ Always respond with accurate, helpful information.""",
     @traceable(name="ask_batch", run_type="chain")
     def ask_batch(self, questions: List[str]) -> List[QAResponse]:
         """Ask multiple questions in parallel."""
-        inputs = [{"question": q} for q in questions]
-        return self.chain.batch(inputs)
+        try:
+            inputs = [{"question": q} for q in questions]
+            return self.chain.batch(inputs)
+        except Exception as e:
+            print(f"⚠ Batch processing failed: {type(e).__name__}")
+            return [
+                QAResponse(
+                    answer="Batch processing error",
+                    confidence="low",
+                    reasoning=str(e),
+                    follow_up_questions=[],
+                    sources_needed=True,
+                ) for _ in questions
+            ]
 
 
 # Demo Usage
@@ -99,24 +112,24 @@ def demo_qa_bot():
         "How does photosynthesis work?",
     ]
 
-    print("=" * 60)
-    print("SMART Q&A BOT DEMO")
-    print("=" * 60)
+    safe_print("=" * 60)
+    safe_print("SMART Q&A BOT DEMO")
+    safe_print("=" * 60)
 
     for question in questions:
 
-        print(f"\n Question: {question}")
-        print("-" * 40)
+        safe_print(f"\n Question: {question}")
+        safe_print("-" * 40)
 
         response = bot.ask(question)
 
-        print(f"Question: {question}")
-        print(f"Answer: {response.answer}")
-        print(f"Confidence: {response.confidence}")
-        print(f"Reasoning: {response.reasoning}")
-        print(f"Follow-up Questions: {response.follow_up_questions}")
-        print(f"Sources Needed: {response.sources_needed}")
-        print("-" * 60)
+        safe_print(f"Question: {question}")
+        safe_print(f"Answer: {response.answer}")
+        safe_print(f"Confidence: {response.confidence}")
+        safe_print(f"Reasoning: {response.reasoning}")
+        safe_print(f"Follow-up Questions: {response.follow_up_questions}")
+        safe_print(f"Sources Needed: {response.sources_needed}")
+        safe_print("-" * 60)
 
 
 @traceable(name="error_handling_demo", run_type="chain")
@@ -125,15 +138,15 @@ def demo_error_handling():
 
     bot = SmartQABot()
 
-    print("\n" + "=" * 60)
-    print("ERROR HANDLING DEMO")
-    print("=" * 60)
+    safe_print("\n" + "=" * 60)
+    safe_print("ERROR HANDLING DEMO")
+    safe_print("=" * 60)
 
     # Test with a very long question (edge case)
     long_question = "What is " + "very " * 100 + "important?"
 
     response = bot.ask(long_question)
-    print(f"Handled gracefully: {response.confidence}")
+    safe_print(f"Handled gracefully: {response.confidence}")
 
 
 @traceable(name="batch_demo", run_type="chain")
@@ -148,9 +161,9 @@ def demo_batch_processing():
         "What is Rust?",
     ]
 
-    print("\n" + "=" * 60)
-    print("BATCH PROCESSING DEMO")
-    print("=" * 60)
+    safe_print("\n" + "=" * 60)
+    safe_print("BATCH PROCESSING DEMO")
+    safe_print("=" * 60)
 
     responses = bot.ask_batch(questions)
 

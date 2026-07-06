@@ -3,15 +3,18 @@ LangGraph Core Concepts
 StateGraph, nodes, edges, and basic patterns
 """
 
-from langchain.chat_models import init_chat_model
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared_utils import load_env_from_project, get_llm
 from langgraph.graph import StateGraph, START, END
 from typing_extensions import TypedDict, Annotated
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 import operator
 from dotenv import load_dotenv
 
-load_dotenv()
+load_env_from_project()
 
 
 # Basic state
@@ -110,7 +113,7 @@ class MessageState(TypedDict):
 
 
 def demo_message_state():
-    llm = init_chat_model("gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     def chat_node(state: MessageState) -> dict:
         response = llm.invoke(state["messages"])
@@ -140,7 +143,7 @@ class MultiStepState(TypedDict):
 
 
 def demo_multi_node_graph():
-    llm = init_chat_model("gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     def analyze_node(state: MultiStepState) -> dict:
         response = llm.invoke(
@@ -218,7 +221,7 @@ def exercise_first_langgraph():
         questions: str
         answer: str
 
-    llm = init_chat_model("gpt-4o-mini", temperature=0)
+    llm = get_llm("ollama")
 
     def generate_questions(state: QAState) -> dict:
         response = llm.invoke(
