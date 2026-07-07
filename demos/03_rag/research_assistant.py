@@ -65,7 +65,7 @@ class AIResearchAssistant:
         self.persist_directory = persist_directory
 
         # 1. Embeddings - turns text into vectors
-        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+        self.embeddings = get_embeddings("BAAI/bge-small-en-v1.5")
 
         self.llm = get_llm("ollama")
 

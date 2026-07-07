@@ -125,7 +125,7 @@ def as_retriever():
     with tempfile.TemporaryDirectory() as tmpdir:
         vectorstore = Chroma.from_documents(
             documents=SAMPLE_DOCS,
-            embedding=OpenAIEmbeddings(model="text-embedding-3-small"),
+            embedding=embeddings_model,
             persist_directory=tmpdir,
         )
 

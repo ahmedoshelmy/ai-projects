@@ -175,9 +175,10 @@ TECH_DOCS = [
 
 def create_base_vectorstore():
     """Create a basic vector store for demos."""
+    embeddings_model = get_embeddings("BAAI/bge-small-en-v1.5")
     return Chroma.from_documents(
         documents=TECH_DOCS,
-        embedding=OpenAIEmbeddings(model="text-embedding-3-small"),
+        embedding=embeddings_model,
     )
 
 
@@ -354,7 +355,7 @@ LangSmith provides observability for LangChain/LangGraph applications, offering 
     # Storage
     vectorstore = Chroma(
         collection_name="parent_child_demo",
-        embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
+        embedding_function=get_embeddings("BAAI/bge-small-en-v1.5"),
     )
     store = InMemoryStore()
 

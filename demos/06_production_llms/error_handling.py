@@ -7,7 +7,6 @@ import time
 import random
 from typing import Literal, Optional, Callable
 from functools import wraps
-from langchain_anthropic import ChatAnthropic
 from langgraph.graph import StateGraph, START, END
 import sys
 from pathlib import Path
@@ -159,14 +158,9 @@ class FallbackChain:
 
     def __init__(self):
         self.models = [
-            ("gpt-4o-mini", get_llm("groq", model="gpt-4o-mini", temperature=0, timeout=10)),
-            ("gpt-4o", get_llm("ollama")),
-            (
-                "claude-sonnet",
-                ChatAnthropic(
-                    model="claude-sonnet-4-5-20250929", temperature=0, timeout=10
-                ),
-            ),
+            ("llama-3.3-70b-versatile", get_llm("groq")),
+            ("gpt-oss:120b-cloud", get_llm("ollama")),
+            ("gpt-oss:20b-cloud", get_llm("ollama", model="gpt-oss:20b-cloud")),
         ]
         self.cache = {}
 

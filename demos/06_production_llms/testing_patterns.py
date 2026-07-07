@@ -25,7 +25,7 @@ class QAChain:
     """Simple Q&A chain for testing."""
 
     def __init__(self, llm=None):
-        self.llm = llm or get_llm("groq", model="gpt-4o-mini", temperature=0)
+        self.llm = llm or get_llm("groq", model="llama-3.3-70b-versatile")
         self.prompt = ChatPromptTemplate.from_template(
             "Answer this question: {question}"
         )
@@ -289,7 +289,6 @@ Persistent, versioned test suites for LLM applications
 
 from langsmith import Client
 from langsmith.evaluation import evaluate
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langsmith import traceable
 from dotenv import load_dotenv

@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 
 load_env_from_project()
 
-llm = get_llm("groq", model="gpt-4o-mini", temperature=0)
+llm = get_llm("groq", model="llama-3.3-70b-versatile")
 
 
 # ============================================================

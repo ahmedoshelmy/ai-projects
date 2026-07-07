@@ -279,7 +279,7 @@ def exercise_document_qa():
             # Create vector store
             self.vectorstore = Chroma.from_documents(
                 documents=chunks,
-                embedding=OpenAIEmbeddings(model="text-embedding-3-small"),
+                embedding=embeddings_model,
             )
             self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 3})
 

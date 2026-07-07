@@ -25,7 +25,7 @@ class ModelRouter:
     """Route queries to appropriate model based on complexity."""
 
     def __init__(self):
-        self.cheap_model = get_llm("groq", model="gpt-4o-mini", temperature=0)
+        self.cheap_model = get_llm("groq", model="llama-3.3-70b-versatile")
         self.expensive_model = get_llm("ollama")
         self.classifier = get_llm("ollama")
 
@@ -58,12 +58,12 @@ Respond with only: simple or complex
 
         if complexity == "simple":
             model = self.cheap_model
-            model_name = "gpt-4o-mini"
-            cost_per_1k = 0.00015  # Input cost
+            model_name = "llama-3.3-70b-versatile"
+            cost_per_1k = 0.00059  # Groq llama input cost
         else:
             model = self.expensive_model
-            model_name = "gpt-4o"
-            cost_per_1k = 0.0025  # Input cost
+            model_name = "gpt-oss:120b-cloud"
+            cost_per_1k = 0.002  # Rough estimate
 
         response = model.invoke(query)
 

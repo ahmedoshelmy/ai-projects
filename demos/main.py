@@ -1,13 +1,16 @@
 from dotenv import load_dotenv
 from importlib.metadata import version
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 load_dotenv()
 
 core_version = version("langchain-core")
 lg_version = version("langgraph")
-from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
+from shared_utils import load_env_from_project, get_llm
 
+load_env_from_project()
 
 print(f"langchain-core version: {core_version}")
 print(f"langgraph version: {lg_version}")
@@ -15,15 +18,15 @@ print(f"langgraph version: {lg_version}")
 
 def main():
 
-    # Test openai
-    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
+    # Test Groq
+    llm = get_llm("groq")
     response = llm.invoke("Say 'setup complete!' in one word")
-    print(f"Response from ChatOpenAI: {response}")
+    print(f"Response from Groq: {response}")
 
-    # Test anthropic
-    llm_anthropic = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0)
-    response_anthropic = llm_anthropic.invoke("Say 'setup complete!' in one word")
-    print(f"Response from ChatAnthropic: {response_anthropic}")
+    # Test Ollama cloud
+    llm_ollama = get_llm("ollama")
+    response_ollama = llm_ollama.invoke("Say 'setup complete!' in one word")
+    print(f"Response from Ollama: {response_ollama}")
 
     print("Setup complete!")
 
