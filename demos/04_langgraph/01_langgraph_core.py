@@ -257,8 +257,8 @@ def exercise_first_langgraph():
 
 if __name__ == "__main__":
     # demo_simple_graph()
-    # demo_accumulating_state()
+    demo_accumulating_state()
     # go to .env LANGSMITH_TRACING=false to disable langsmith tracing for the next example, or set it to true to see the tracing in action
     # demo_message_state()
     # demo_multi_node_graph()
-    exercise_first_langgraph()
+    # exercise_first_langgraph()
