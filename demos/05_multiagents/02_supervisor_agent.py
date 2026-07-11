@@ -28,7 +28,7 @@ class SupervisorState(TypedDict):
     final_response: str
 
 
-llm = get_llm("groq", model="llama-3.3-70b-versatile")
+llm = get_llm("groq")
 
 
 def create_supervisor_system():
@@ -223,6 +223,10 @@ def demo_supervisor_trace():
     print("Routing decisions:")
     for msg in result["messages"]:
         if isinstance(msg, AIMessage) and "[Supervisor]" in msg.content:
+            print(f"  → {msg.content}")
+
+    for msg in result["messages"]:
+        if isinstance(msg, AIMessage):
             print(f"  → {msg.content}")
 
 
