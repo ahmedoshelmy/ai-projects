@@ -118,6 +118,12 @@ All course materials are organized by provider:
 - **Practical Deep Learning** - Fast.ai courses
 - **Knowledge Graphs (DeepLearning.ai)** - RAG and KG courses
 
+## 📖 Local Documentation
+
+- [AGENTS.md](AGENTS.md) — Core concepts, ReAct framework, multi-agent systems
+- [CLAUDE.md](CLAUDE.md) — Claude model reference (points to AGENTS.md)
+- [GEMINI.md](GEMINI.md) — Gemini model reference (points to AGENTS.md)
+
 ## 🔗 Key Resources
 
 - [OpenAI API Docs](https://platform.openai.com/docs)
