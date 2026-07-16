@@ -12,8 +12,8 @@ from PIL import Image
 
 # Config
 PPTX_PATH = r'C:\Users\ahelmy\Grind\RAG.pptx'
-PICS_DIR = r'C:\code\Personal\ai-projects\demos\pics\done'
-OUTPUT_PATH = PPTX_PATH  # Override the original file
+PICS_DIR = r'C:\code\Personal\ai-projects\demos\pics'
+OUTPUT_PATH = r'C:\Users\ahelmy\Grind\RAG2.pptx'  # Override the original file
 
 # Get sorted images by filename (filenames contain timestamps)
 images = sorted(
